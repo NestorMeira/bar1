@@ -25,20 +25,33 @@ window.seleccionarProducto = function(nombre, precio, spanId) {
     const cantidad = productosSeleccionados[spanId]?.cantidad || 1;
     const presio = precio; // Puedes ajustar esto si es necesario
 
-    const producto = {
-        nombre: nombre,
-        presio: presio,
-        cantidad: cantidad,
-        precioTotal: presio * cantidad,
-        spanId: spanId // Añadir el spanId al objeto del producto
-    };
+    const productoExistente = productosSeleccionados[spanId];
 
-    productosSeleccionados[spanId] = producto;
+    // Verificar si el producto ya está seleccionado
+    if (productoExistente) {
+        // Deseleccionar el producto (eliminarlo)
+        delete productosSeleccionados[spanId];
+        // Restablecer la cantidad visualizada a 0
+        const cantidadSpan = document.getElementById(spanId);
+        cantidadSpan.textContent = 0;
+    } else {
+        // Seleccionar el producto
+        const producto = {
+            nombre: nombre,
+            presio: presio,
+            cantidad: cantidad,
+            precioTotal: presio * cantidad,
+            spanId: spanId // Añadir el spanId al objeto del producto
+        };
+        productosSeleccionados[spanId] = producto;
+        // Actualizar la cantidad visualizada a 1
+        const cantidadSpan = document.getElementById(spanId);
+        cantidadSpan.textContent = 1;
+    }
 
-    console.log(producto);
-  
-
+    console.log(productosSeleccionados);
 }
+
 
 
 
@@ -77,9 +90,50 @@ window.decrementarCantidad = function(spanId) {
 }
 
 
+// Función para seleccionar la mesa
+function seleccionarMesa(numeroMesa) {
+    // Puedes realizar acciones relacionadas con la selección de la mesa aquí
+    console.log("Mesa seleccionada:", numeroMesa);
+}
+
+// Función para mostrar productos
+function mostrarProductos() {
+    // Puedes agregar el código para mostrar productos aquí
+    console.log("Mostrar productos");
+}
+
 document.addEventListener("DOMContentLoaded", function() {
     // Definir la función enviarPedido en el ámbito global
-    window.enviarPedido = async function(numeroMesa) {
+    window.enviarPedido = async function() {
+        // Obtener el número de mesa seleccionado
+     // Obtener el número de mesa seleccionado
+     const mesaButtons = document.querySelectorAll(".mesa-btn:checked");
+     let numeroMesa;
+
+     mesaButtons.forEach((button) => {
+         numeroMesa = button.value;
+     });
+
+     // Verificar si se ha seleccionado un número de mesa
+     if (!numeroMesa) {
+        Swal.fire({
+            icon: 'error',
+            title: '¡seleccione el Nº de Mesa!',
+          
+        });
+        return;
+     }
+
+     const botonPedir = document.getElementById("botonPedir");
+
+        // Mostrar u ocultar el botón "Pedir" según si hay productos seleccionados
+        if (Object.keys(productosSeleccionados).length > 0) {
+            botonPedir.style.display = "block";  // Mostrar el botón
+        } else {
+            botonPedir.style.display = "none";   // Ocultar el botón
+        }
+
+
         try {
             // Calcular el precio total del pedido sumando los precios totales de cada producto
             const precioTotalPedido = Object.values(productosSeleccionados).reduce((total, producto) => {
@@ -129,9 +183,21 @@ document.addEventListener("DOMContentLoaded", function() {
                 text: 'Por favor, inténtalo de nuevo.',
             });
         }
+
+
+      
     }
 });
 
+function mostrarOcultarBotonPedir() {
+    const botonPedir = document.getElementById("botonPedir");
+
+    if (Object.keys(productosSeleccionados).length > 0) {
+        botonPedir.style.display = "block";  // Mostrar el botón
+    } else {
+        botonPedir.style.display = "none";   // Ocultar el botón
+    }
+}
 
 // Obtén todos los elementos con la clase "checkIcon"
 const checkIcons = document.querySelectorAll(".checkIcon");
@@ -145,80 +211,12 @@ checkIcons.forEach(function(icon) {
 
         // Tu lógica para cambiar el color o hacer otras acciones aquí
         this.classList.toggle("active");
+        mostrarOcultarBotonPedir();
     });
 });
 
 
 
-
-window.mostrarProductos = function() {
-    const modal = document.getElementById("modal");
-    modal.style.display = "flex";
-    const resultadoDiv = document.getElementById("resultado");
-    resultadoDiv.innerHTML = ""; // Limpiar contenido previo
-
-     // Crear y agregar el select para seleccionar el número de mesa
-     const selectMesa = document.createElement("select");
-     for (let i = 1; i <= 7; i++) {
-         const option = document.createElement("option");
-         option.value = i;
-         option.text = `Mesa ${i}`;
-         selectMesa.appendChild(option);
-     }
-     resultadoDiv.appendChild(selectMesa);
-
-    Object.values(productosSeleccionados).forEach(producto => {
-        const productoInfo = document.createElement("div");
-        productoInfo.classList.add('muestra');
-
-        // Agrega la información del producto
-        productoInfo.innerHTML = `<h2>${producto.nombre}</h2> 
-        <h3>Cantidad: ${producto.cantidad}</h3>
-        <p>$ ${producto.presio}</p>`;
-
-        // Agrega un botón para eliminar el producto
-        const eliminarBoton = document.createElement("button");
-        eliminarBoton.textContent = "Eliminar";
-        eliminarBoton.onclick = function() {
-            eliminarProducto(producto.spanId);
-            mostrarProductos(); // Vuelve a mostrar la lista actualizada después de la eliminación
-        };
-
-        // Agrega el botón de eliminar al div del producto
-        productoInfo.appendChild(eliminarBoton);
-
-        // Agrega el div del producto al resultadoDiv
-        resultadoDiv.appendChild(productoInfo);
-    });
-
-    // Agrega el botón para enviar el pedido
-    const enviarPedidoBoton = document.createElement("button");
-    enviarPedidoBoton.textContent = "Enviar Pedido";
-    enviarPedidoBoton.onclick = function() {
-        // Obtener el número de mesa seleccionado
-        const numeroMesa = selectMesa.value;
-
-        if (numeroMesa === "") {
-            alert("Por favor, selecciona un número de mesa antes de enviar el pedido.");
-            return;
-        }
-
-        enviarPedido(numeroMesa);
-        cerrarModal(); // Cierra el modal después de enviar el pedido
-    };
-
-    // Agrega el botón de enviar pedido al modal
-    resultadoDiv.appendChild(enviarPedidoBoton);
-
-    function cerrarModal() {
-        const modal = document.getElementById("modal");
-        modal.style.display = "none"; // Oculta el modal
-    }
-    
-    function detenerPropagacion(event) {
-        event.stopPropagation(); // Detiene la propagación del clic dentro del modal
-    }
-};
 
 
 

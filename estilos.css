@@ -12,30 +12,53 @@ body {
         opacity: 1;
     }
     50% {
-        opacity: 0.5;
+        opacity: 0.9;
     }
     100% {
         opacity: 1;
     }
 }
 
-.flecha{
+@keyframes moveUpDown {
+    0%, 80% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px); /* Ajusta la distancia que quieres que se mueva hacia arriba y hacia abajo */
+    }
+}
+
+.flecha {
     background-color: transparent;
     border: none;
     width: 40px;
     height: 40px;
-    position: -webkit-sticky; 
-    position: sticky; 
-    top:400px;
-    margin-left: 90%;
+    position: absolute;
+    margin-top: 60px;
+    margin-left: 85%;
     z-index: 3;
-    animation: titilar 4s infinite;
-   
+    animation: titilar 4s infinite, moveUpDown 4s infinite; /* Agregamos la animación moveUpDown */
 }
-.flecha img{
+
+.flecha img {
     width: 100%;
     height: 100%;
 }
+
+.mesa{
+  text-align: center;
+    color: #fff;
+    font-size: 1.5rem;
+    border: 1px solid rgb(255, 132, 228);
+    margin-right: 10px;
+    height: 170px;
+}
+.mesa input{
+    width: 20px;
+    height: 20px;
+
+}
+
 
 .navbar {
     z-index: 1;
@@ -122,6 +145,7 @@ body {
 
 
 
+
 .tragos{
     display: flex;
     flex-flow: column nowrap;
@@ -161,31 +185,59 @@ body {
 .tragos-item .nombre-precio .vino{
     font-size: 0.9rem;
     line-height: 2;
-    width: 175px;
+    width: 18 .5px;
+   position: relative;
  
-    margin-left: -40px;
+   
    
 }
 
+
+
+
 .tragos-item .nombre-precio .cantidades{
-    margin-top: 25px;
+    margin-top: 30px;
 }
+.tragos-item .nombre-precio .cantidades button{
+    background-color: rgba(0, 0, 0, 0.781);
+    color: #fff;
+    border: 1px solid #fff;
+    font-size: 1.1rem;
+    border-radius: 3px;
+    width: 25px;
+}
+
+.tragos-item .nombre-precio .cantidades button:active{
+    background-color: #fff;
+    color: black;
+   
+}
+
+
+
+
 
 
 .tragos-item .nombre-precio .vinoSj{
- width: 155px;
+ width: 185px;
 }
-
+.tragos-item .nombre-precio .icon2{
+margin-left: -20px;
+}
 .tragos-item .promo{
     z-index: 1;
     color:rgba(255, 132, 228, 0.65) ;
     margin-top: -10px;
     font-size: 1rem;
 }
-
+.gines{
+   
+    width: 300px;
+}
 .gines span{
-    margin-left: -15px;
+   
     margin-right: 4px;
+  
 }
 .nombre-precio{
     z-index: 1;
@@ -196,7 +248,7 @@ body {
     font-weight: 400;
     padding-top: 20px;
     font-size: 1rem;
-    width: 175px;
+    width: 185px;
 }
 .tragos-item .nombre-precio .precio{
     z-index: 1;
@@ -207,6 +259,7 @@ body {
     text-align: center;
     border-radius: 3px;
     margin-left: 10px;
+    margin-right: 5px;
     text-align: center;
     padding-top: 10px;
     font-size: 1.2rem;
@@ -225,18 +278,25 @@ body {
 
 
 .tragos-item i.fa-check {
-    color: #28a745; 
+    color:rgba(0, 0, 0, 0.908);
     margin-right: 5px;
+    margin-top: 35px;
+    border: 1px solid rgb(255, 255, 255);
+    height: 16px;
+    border-radius: 3px;
+    z-index: 3;
+
 }
 
 .tragos-item i.fa-check.active {
-    color: #ffffff; 
+    color: #85ffa1; 
     animation: none; 
 
 }
 
-
-
+.promo{
+ width: 355px;
+}
 
 
 .modal {
@@ -263,14 +323,6 @@ body {
     height: 100%;
     overflow: scroll;
 }
-
-
-
-
-
-
-
-
 
 /* imagenes de fondo */
 .tragos .planeta{
@@ -304,7 +356,6 @@ body {
     height: 100px;
     margin-top: -40px;
     margin-bottom: 40px;
- 
 
 }
 .footer a{
@@ -325,7 +376,24 @@ animation: titilar 4s infinite;
 }
 
 .pedir{
+    position: -webkit-sticky;
+    position: sticky; 
     z-index: 5;
+    top: 540px;
+    margin-left: 74%;
+    width: 95px;
+    height: 95px;
+    font-size: 1.7rem;
+    border-radius: 50px;
+    background-color: rgb(0, 0, 0);
+    color:rgb(255, 133, 229) ;
+    border: 2px solid rgb(255, 133, 229);
+    font-weight: 700;
+    box-shadow: 1.3px 1.3px 5px 1.3px rgb(255, 133, 229,229);
+    text-shadow: 1px 1px 2px rgb(255, 133, 229);
+    animation: titilar 2s infinite;
+   display: none;
+
 }
 
 
