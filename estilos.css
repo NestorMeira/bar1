@@ -185,14 +185,9 @@ body {
 .tragos-item .nombre-precio .vino{
     font-size: 0.9rem;
     line-height: 2;
-    width: 18 .5px;
-   position: relative;
- 
-   
-   
+    width: 175px;
+   margin-left: 10px;
 }
-
-
 
 
 .tragos-item .nombre-precio .cantidades{
@@ -221,9 +216,7 @@ body {
 .tragos-item .nombre-precio .vinoSj{
  width: 185px;
 }
-.tragos-item .nombre-precio .icon2{
-margin-left: -20px;
-}
+
 .tragos-item .promo{
     z-index: 1;
     color:rgba(255, 132, 228, 0.65) ;
