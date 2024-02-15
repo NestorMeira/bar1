@@ -52,7 +52,17 @@ window.seleccionarProducto = function(nombre, precio, spanId) {
     console.log(productosSeleccionados);
 }
 
+const mesaButtons = document.querySelectorAll('.mesa-btn');
 
+    mesaButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            mesaButtons.forEach(otherButton => {
+                if (otherButton !== button) {
+                    otherButton.checked = false;
+                }
+            });
+        });
+    });
 
 
 window.eliminarProducto = function(spanId) {
